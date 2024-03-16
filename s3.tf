@@ -62,15 +62,6 @@ resource "aws_s3_bucket_website_configuration" "website_rootdomain" {
   }
 }
 
-resource "aws_s3_bucket_policy" "allow_public_access_rootdomain" {
-  count  = var.custom_dn ? 1 : 0
-  bucket = aws_s3_bucket.website_rootdomain[0].id
-  policy = data.aws_iam_policy_document.allow_public_access_rootdomain[0].json
-  depends_on = [
-    aws_s3_bucket.website_rootdomain[0],
-  ]
-}
-
 data "aws_iam_policy_document" "allow_public_access_rootdomain" {
   count = var.custom_dn ? 1 : 0
   statement {
