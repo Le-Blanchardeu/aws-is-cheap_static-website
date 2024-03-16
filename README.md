@@ -49,6 +49,9 @@ terraform apply -var="domain_and_bucket_name=sister_beauty.com" -var="aws_region
 # Pushing the website in the S3 if you have aws cli installed. Otherwise open AWS Console, select S3, and pu the website content in the bucket 
 # (there must be an index.html)
 aws s3 cp sister_website/ s3://sister_beauty.com/ --recursive
+
+# NOTE: in case you modify your webpage (e.g. the index.html) and want to see your modifications immediately, you will need to invalidate the cloudfront cache:
+aws cloudfront create-invalidation — distribution-id E1xxxxxxxxxx — paths “/index.html”
 ```
 
 ### Static Website hosted on S3 with HTTPS with Custom Domain Name
@@ -58,13 +61,16 @@ The following will create a static website on S3, with https and custom domain n
 
 ```sh
 terraform init
-terraform plan -out=tfplan -var="domain_and_bucket_name=feetfetishcrypto.com" -var="aws_region=eu-west-1" -var="https=true" -var="custom_dn=true"
+terraform apply -var="domain_and_bucket_name=feetfetishcrypto.com" -var="aws_region=eu-west-1" -var="https=true" -var="custom_dn=true"
 # Replace feetfetishcrypto.com by the domain name bought in AWS Route 53
 # Replace eu-west-1 (Ireland) with another AWS region if you prefer
 
 # Pushing the website in the S3 if you have aws cli installed. Otherwise open AWS Console, select S3, and pu the website content in the bucket 
 # (there must be an index.html)
 aws s3 cp crypto_bootstrap_page/ s3://www.feetfetishcrypto.com/ --recursive
+
+# NOTE: in case you modify your webpage (e.g. the index.html) and want to see your modifications immediately, you will need to invalidate the cloudfront cache:
+aws cloudfront create-invalidation — distribution-id E1xxxxxxxxxx — paths “/index.html”
 ```
 
 ## How to contribute
